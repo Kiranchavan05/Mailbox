@@ -1,5 +1,8 @@
 import React,{ useRef, useState} from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import {useHistory} from 'react-router-dom'
+import { useDispatch } from "react-redux";
+import { authActions } from "./authentication";
 
 
 const Login = () => {
@@ -10,7 +13,8 @@ const Login = () => {
     const passwordInputRef = useRef()
     const cPasswordInputRef = useRef()
    
-
+    const history = useHistory()
+    const dispatch = useDispatch()
 
     const submitHandler = async(event) => {
         event.preventDefault()
@@ -35,6 +39,8 @@ const Login = () => {
          if(response.ok){
           const data = await response.json();
           console.log(data);
+          dispatch(authActions.login({token : data.idToken, email : data.email}))
+          history.replace('/welcomepage')
          } else {
           const data = await response.json()
           alert(data.error.message)
@@ -76,6 +82,7 @@ const Login = () => {
     }
 
     const resetPassword = () => {
+      history.push('/changepassword')
 
     }
 
@@ -121,14 +128,37 @@ const Login = () => {
                      />
                    </Form.Group>
                    <div>
-                    {loading ? 'loading...' :  <Button
-                       className="mt-2"
-                       style={{ marginLeft: "45%" }}
-                       type="submit"
-                     >
-                       {isLogin ? "Login" : "Signup"}
-                     </Button> }
+                   {loading ? (
+                       "loading..."
+                     ) : (
+                       <Button
+                         className="mt-2"
+                         style={{ marginLeft: "45%" }}
+                         type="submit"
+                       >
+                         {isLogin ? "Login" : "Signup"}
+                       </Button>
+                     )}
                    </div>
+
+                   <div>
+                     <Button
+                       className="col-md-12 mt-3 text-primary"
+                       style={{
+                         border: "none",
+                         backgroundColor: "transparent",
+                         color: "black",
+                       }}
+                       type="button"
+                       onClick={resetPassword}
+                     >
+                       {isLogin
+                         ? "Forgot Password"
+                         : ""}
+                     </Button>
+                   </div>
+
+
                    <div>
                      <Button
                        className="col-md-12 mt-3 text-primary"
