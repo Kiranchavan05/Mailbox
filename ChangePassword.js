@@ -1,11 +1,33 @@
 
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
-
+import { useRef, Fragment } from "react";
 
 const ChangePassword=()=>{
+  const emailInputRef = useRef()
+  
 
     const submitHandler = async(event) => {
         event.preventDefault()
+        const enteredEmail = emailInputRef.current.value
+
+
+        const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyAIyZ-UnXtXcWkfqp-eNXm7G0Tog1D6O-4',{
+          method :'POST',
+          body : JSON.stringify({
+              requestType : "PASSWORD_RESET",
+              email : enteredEmail
+          })
+      })
+       if (response.ok) {
+         const data = await response.json();
+         console.log(data)
+         alert('Link sent to Entered Email')
+       } else {
+         const data = await response.json();
+         alert(data.error.message);
+       }
+
+       emailInputRef.current.value = ''
     }
 
     
@@ -25,6 +47,7 @@ const ChangePassword=()=>{
                      <Form.Control
                        type="text"
                        placeholder="Email"
+                       ref={emailInputRef}
                       
                      />
                    </Form.Group>

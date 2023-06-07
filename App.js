@@ -5,6 +5,7 @@ import Header from "./component/Header";
 import WelcomePage from "./component/Welcome";
 import ChangePassword from "./component/ChangePassword";
 import { Switch ,Route,Redirect} from "react-router-dom";
+import ComposeMail from "./component/ComposeMail";
 
 
 function App() {
@@ -12,19 +13,23 @@ function App() {
     <Fragment>
       <Header />
       <Switch>
-        <Route path="/" exact>
-          <Redirect to="/login" />
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/changepassword">
-          <ChangePassword />
-        </Route>
-        <Route path='/welcomepage'>
+      <Route path='/' exact>
+        <Redirect to='/login' />
+      </Route>
+       <Route path="/login" >
+         <Login />
+       </Route>
+       <Route path='/changepassword'>
+        <ChangePassword />
+       </Route>
+       <Route path='/welcomepage'>
         <WelcomePage /> 
        </Route>
-      </Switch>
+       <Route path='/composemail'>
+        <ComposeMail />
+       </Route>
+      
+     </Switch>
     </Fragment>
   );
 }

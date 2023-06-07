@@ -6,13 +6,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./authentication";
 
 
+
 const Header = () => {
    
+    
     const dispatch = useDispatch()
     const isLoggedin = useSelector(state => state.auth.isAuthenticated)
 
     const logoutHandler = () => {
         dispatch(authActions.logout())
+       
+       
     }
 
     return (
@@ -25,6 +29,14 @@ const Header = () => {
           <Nav className="me-auto m-1">
             {!isLoggedin && <Link to="/login" className="text-light text-decoration-none m-2">
               Login
+            </Link>}
+
+            {isLoggedin && <Link to="/composemail" className="text-light text-decoration-none m-2">
+              ComposeMail
+            </Link>}
+            
+            {isLoggedin && <Link onClick={logoutHandler} to="/login" className="text-light text-decoration-none m-2">
+              Logout
             </Link>}
            
            
