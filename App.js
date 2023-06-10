@@ -5,10 +5,16 @@ import Header from "./component/Header";
 import WelcomePage from "./component/Welcome";
 import ChangePassword from "./component/ChangePassword";
 import { Switch ,Route,Redirect} from "react-router-dom";
-import ComposeMail from "./component/ComposeMail";
+import ComposeMail from "./component/ComposeMail"
+import { useSelector } from "react-redux"
+import Inbox from "./component/Inbox";
 
 
 function App() {
+
+  const isLoggedin = useSelector(state => state.auth.isAuthenticated)
+
+
   return (
     <Fragment>
       <Header />
@@ -22,13 +28,18 @@ function App() {
        <Route path='/changepassword'>
         <ChangePassword />
        </Route>
-       <Route path='/welcomepage'>
-        <WelcomePage /> 
-       </Route>
-       <Route path='/composemail'>
-        <ComposeMail />
-       </Route>
-      
+        {isLoggedin && <Route path="/welcomepage">
+         <WelcomePage />
+       </Route> }
+     {isLoggedin &&  <Route path="/composemail">
+         <ComposeMail />
+       </Route> }
+    {isLoggedin &&   <Route path="/inbox">
+         <Inbox />
+       </Route>  }
+    <Route path='*'>
+      Page Not Found
+    </Route>
      </Switch>
     </Fragment>
   );

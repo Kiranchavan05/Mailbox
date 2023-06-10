@@ -27,7 +27,7 @@ const ComposeMail = () => {
         const enteredTo = inputTo.current.value;
       const enteredSubject = inputSubject.current.value;
       const mail = {
-        to: enteredTo,
+        to: userEmail,
         subject: enteredSubject,
         content: editorState.getCurrentContent().getPlainText(),
       };
@@ -106,7 +106,7 @@ const ComposeMail = () => {
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label >Content :</Form.Label> 
-              <div style={{backgroundColor : 'lightgray'}}>
+              <div style={{backgroundColor : '#3ab5'}}>
                 <Editor
                   editorState={editorState}
                   toolbarClassName="toolbarClassName"
