@@ -7,9 +7,12 @@ import { fetchData } from "./InboxSlice";
 import { updateData } from "./InboxSlice";
 
 
+
 const Inbox = () => {
   const userEmail = useSelector((state) => state.auth.userEmail);
   const email = userEmail.replace(/[@.]/g, "");
+
+
   const mails = useSelector((state) => state.inbox.mails);
   const dispatch = useDispatch();
   const unReadMails = useSelector((state) => state.inbox.unreadCount);
@@ -29,6 +32,26 @@ const Inbox = () => {
  
   const closeModal = () => {
     dispatch(inboxActions.setSelectedEmail(null))
+  }
+
+  const deletehandler = async(key) => {
+    dispatch(inboxActions.deleteMail(key))
+    try {
+      const response = fetch(
+      `https://mailbox-89432-default-rtdb.firebaseio.com/${email}/inbox/${key}.json`,{
+        method : 'DELETE'
+      }
+    )
+    if (!response.ok) {
+              throw new Error("failed to fetch data");
+            }
+
+            const data = await response.json();
+            return data;
+    } catch (err) {
+      console.log(err)
+    }
+
   }
 
   return (
@@ -62,8 +85,19 @@ const Inbox = () => {
                   }}
                 />
               )}
-              {`${mails[key].from} - ${mails[key].subject} - ${mails[key].content} - ${mails[key].read}`}
+              {`${mails[key].from} - ${mails[key].subject} - ${mails[key].content} `}
             </div>
+            <button
+                style={{
+                  backgroundColor: "lightgray",
+                  border: "1px solid gray",
+                  borderRadius: "10px",
+                  marginLeft: "10%",
+                }}
+                onClick = {() => deletehandler(key)}
+              >
+                Delete
+              </button>
           </ListGroup.Item>
         ))}
       </ListGroup>
