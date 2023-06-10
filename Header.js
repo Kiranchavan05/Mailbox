@@ -50,6 +50,16 @@ const Header = () => {
                 Inbox
               </Link>
             )}
+
+            {isLoggedin && (
+              <Link
+                to="/outbox"
+                className="text-light text-decoration-none m-2"
+              >
+                outbox
+              </Link>
+            )}
+
             {isLoggedin && (
               <Link
                 to="/login"

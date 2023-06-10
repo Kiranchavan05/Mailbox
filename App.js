@@ -8,6 +8,7 @@ import { Switch ,Route,Redirect} from "react-router-dom";
 import ComposeMail from "./component/ComposeMail"
 import { useSelector } from "react-redux"
 import Inbox from "./component/Inbox";
+import Sent from "./component/Sent";
 
 
 function App() {
@@ -37,6 +38,11 @@ function App() {
     {isLoggedin &&   <Route path="/inbox">
          <Inbox />
        </Route>  }
+
+       {isLoggedin &&   <Route path="/outbox">
+         <Sent />
+       </Route>  }
+
     <Route path='*'>
       Page Not Found
     </Route>

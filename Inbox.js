@@ -9,11 +9,11 @@ import { updateData } from "./InboxSlice";
 
 
 const Inbox = () => {
-  const userEmail = useSelector((state) => state.auth.userEmail);
+  const userEmail = localStorage.getItem('email');
   const email = userEmail.replace(/[@.]/g, "");
 
 
-  const mails = useSelector((state) => state.inbox.mails);
+  const mails = useSelector((state) => state.inbox.inboxMails);
   const dispatch = useDispatch();
   const unReadMails = useSelector((state) => state.inbox.unreadCount);
   const selectedEmail = useSelector(state => state.inbox.selectedEmail)
@@ -35,10 +35,11 @@ const Inbox = () => {
   }
 
   const deletehandler = async(key) => {
+    console.log('deletekey',key)
     dispatch(inboxActions.deleteMail(key))
     try {
       const response = fetch(
-      `https://mailbox-89432-default-rtdb.firebaseio.com/${email}/inbox/${key}.json`,{
+      `https://mailbox-2f973-default-rtdb.firebaseio.com/${email}/inbox/${key}.json`,{
         method : 'DELETE'
       }
     )
@@ -65,7 +66,7 @@ const Inbox = () => {
             key={key}
             className="m-2"
             style={{
-              backgroundColor: "aquamarine",
+              backgroundColor: "#f543",
               border: "1px solid blue",
               borderRadius: "5px",
               display: "flex",
