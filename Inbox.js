@@ -19,7 +19,10 @@ const Inbox = () => {
   const selectedEmail = useSelector(state => state.inbox.selectedEmail)
 
   useEffect(()=> {
-    dispatch(fetchData(email))
+    const reload = () =>  dispatch(fetchData(email));
+    const intervalId = setInterval(reload , 2000)
+
+    return () => clearInterval(intervalId)
   }, [email, dispatch])
 
   const openMail = (key) => {
